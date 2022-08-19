@@ -1,0 +1,39 @@
+public class Solution
+{
+    public static IList<IList<int>> combinationSumSolutions = new List<IList<int>>(); //list of list which will contain my solution lists.
+    public static int sumTarget; 
+    public  IList<IList<int>> CountWays(int n)
+    {
+        //Question says that box has 3 balls with different values.
+        //And from the example that has been provided it looks like we have an indefinite number of balls.
+        //So we can assume that we have an input array of 3 numbers that should add up to target number 'n'
+        int[] input = { 2, 3, 4 };  //declaring the array.
+        sumTarget = n;
+        CountWaysBacktrack(input, 0, new List<int>());
+        return combinationSumSolutions;
+
+    }
+
+    static void CountWaysBacktrack(int[] candidates, int start, List<int> comb)
+    {
+        if (comb.Sum() == sumTarget)
+        {
+            //is sum of list element == target add to list of list
+            combinationSumSolutions.Add(new List<int>(comb));  
+
+        }
+        else if (comb.Sum() > sumTarget)
+        {
+            return; 
+        }
+        for (int i = 0; i < candidates.Length; i++)
+        {
+            // here what we are doing is adding each number of input array to a out list "comb".
+
+            comb.Add(candidates[i]);  // here what we are doing is adding each number of input array to a out list "comb".
+            CountWaysBacktrack(candidates, i, comb); // then we are calling recursively. notice that we are passing the current index. this is because we can use the same number to form our sum.
+            comb.RemoveAt(comb.Count - 1); //backtracking step. if comb.Sum()>sumTarget we will remove the last element from the list i.e. list.pop() and proceed with next element.
+        }
+    }
+
+}
